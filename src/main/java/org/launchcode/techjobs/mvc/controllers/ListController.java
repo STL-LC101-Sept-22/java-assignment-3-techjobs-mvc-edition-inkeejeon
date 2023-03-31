@@ -15,6 +15,11 @@ import java.util.HashMap;
 /**
  * Created by LaunchCode
  */
+
+
+// ListController create two hashMaps (Key/value=column/table)
+// the constructor sets the key-value pairs by getting the data from the JobData Class,
+// which is getting that data from the jobData CSV
 @Controller
 @RequestMapping(value = "list")
 public class ListController {
@@ -29,12 +34,18 @@ public class ListController {
         columnChoices.put("positionType", "Position Type");
         columnChoices.put("coreCompetency", "Skill");
 
+//        <!-- TODO view all from part 2 -->
+        tableChoices.put("all", "View All");
         tableChoices.put("employer", JobData.getAllEmployers());
         tableChoices.put("location", JobData.getAllLocations());
         tableChoices.put("positionType", JobData.getAllPositionTypes());
         tableChoices.put("coreCompetency", JobData.getAllCoreCompetency());
     }
 
+
+//     The two GetMapping methods allow the user to view the column choices and table choices.
+//     First we add the column and table choices to the model, so they can be displayed in the view
+//     then we enable the user to view jobs based on the column and values selected
     @GetMapping(value = "")
     public String list(Model model) {
         model.addAttribute("columns", columnChoices);
@@ -58,6 +69,7 @@ public class ListController {
             model.addAttribute("title", "Jobs with " + columnChoices.get(column) + ": " + value);
         }
         model.addAttribute("jobs", jobs);
+        model.addAttribute("columns", ListController.columnChoices);
 
         return "list-jobs";
     }
